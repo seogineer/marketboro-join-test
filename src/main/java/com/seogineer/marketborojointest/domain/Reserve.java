@@ -31,6 +31,22 @@ public class Reserve extends BaseEntity {
         this.memberId = memberId;
     }
 
+    public int use(int money){
+        if(this.amount == money) {
+            this.status = ReserveStatus.USE;
+            this.balance -= money;
+            return 0;
+        }
+        if(this.amount > money){
+            this.balance -= money;
+            return 0;
+        }
+        this.status = ReserveStatus.USE;
+        int remain = money - this.balance;
+        this.balance = 0;
+        return remain;
+    }
+
     public Long getId() {
         return id;
     }
