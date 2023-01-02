@@ -1,12 +1,12 @@
 package com.seogineer.marketborojointest.domain;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import lombok.Getter;
 
 @Entity
@@ -19,19 +19,27 @@ public class Reserve extends BaseEntity {
     private int balance;
     @Enumerated(value = EnumType.STRING)
     private ReserveStatus status;
-    @Column(name = "member_id")
+    @JoinColumn(name = "member_id")
     private Long memberId;
 
     protected Reserve() {}
 
-    public Reserve(int amount, Long memberId){
+    private Reserve(int amount, Long memberId){
         this.amount = amount;
         this.balance = amount;
         this.status = ReserveStatus.SAVE;
         this.memberId = memberId;
     }
 
+    public static Reserve of(int amount, Long memberId){
+        return new Reserve(amount, memberId);
+    }
+
     public int use(int money){
+        if(this.status == ReserveStatus.USE){
+            return money;
+        }
+
         if(this.amount == money) {
             this.status = ReserveStatus.USE;
             this.balance -= money;
