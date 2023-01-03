@@ -39,9 +39,7 @@ public class Member extends BaseEntity {
     }
 
     public void useReserve(int amount) {
-        if(getTotalReserve() < amount){
-            throw new MemberException(GREATER_THAN_TOTAL_RESERVES);
-        }
+        validateUseReserve(amount);
 
         int cursor = 0;
         while(true){
@@ -59,6 +57,12 @@ public class Member extends BaseEntity {
             }
             cursor++;
             amount = remain;
+        }
+    }
+
+    private void validateUseReserve(int amount){
+        if(getTotalReserve() < amount){
+            throw new MemberException(GREATER_THAN_TOTAL_RESERVES);
         }
     }
 
