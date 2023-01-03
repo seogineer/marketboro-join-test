@@ -1,8 +1,11 @@
 package com.seogineer.marketborojointest.domain;
 
+import static com.seogineer.marketborojointest.exception.ErrorCode.GREATER_THAN_TOTAL_RESERVES;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.seogineer.marketborojointest.exception.MemberException;
 import org.junit.jupiter.api.Test;
 
 class MemberTest {
@@ -45,7 +48,6 @@ class MemberTest {
 
         member.useReserve(10);
 
-
         assertThat(member.getTotalReserve()).isEqualTo(16);
         assertThat(member.getReserves().get(0).getStatus()).isEqualTo(ReserveStatus.USE);
     }
@@ -81,7 +83,13 @@ class MemberTest {
 
     @Test
     void 총_적립금액_보다_사용_금액이_큰_경우() {
+        Member 회원 = 회원_생성(1L);
+        적립금_적립(회원, 10);
 
+        assertThatThrownBy(
+                () -> 회원.useReserve(20))
+                .isInstanceOf(MemberException.class)
+                .hasMessageContaining(GREATER_THAN_TOTAL_RESERVES.getDetail());
     }
 
     private Member 회원_생성(Long memberId) {
