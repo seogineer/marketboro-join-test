@@ -1,5 +1,7 @@
 package com.seogineer.marketborojointest.service;
 
+import static com.seogineer.marketborojointest.exception.ErrorCode.NOT_FOUND_MEMBER;
+
 import com.seogineer.marketborojointest.domain.Member;
 import com.seogineer.marketborojointest.domain.MemberRepository;
 import com.seogineer.marketborojointest.domain.ReserveRepository;
@@ -7,6 +9,8 @@ import com.seogineer.marketborojointest.dto.request.MemberAddReserveRequest;
 import com.seogineer.marketborojointest.dto.request.MemberUseReserveRequest;
 import com.seogineer.marketborojointest.dto.response.MemberReserveHistoryResponse;
 import com.seogineer.marketborojointest.dto.response.MemberTotalBalanceResponse;
+import com.seogineer.marketborojointest.exception.ErrorCode;
+import com.seogineer.marketborojointest.exception.MemberException;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +31,7 @@ public class MemberService {
 
     @Transactional(readOnly = true)
     public Member findMember(Long memberId) {
-        return memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("회원을 찾을 수 없습니다."));
+        return memberRepository.findById(memberId).orElseThrow(() -> new MemberException(NOT_FOUND_MEMBER));
     }
 
     public void deleteMember(Long memberId) {
@@ -36,8 +40,7 @@ public class MemberService {
 
 
     public void addReserve(Long memberId, MemberAddReserveRequest request){
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new IllegalArgumentException("회원을 찾을 수 없습니다."));
+        Member member = findMember(memberId);
         member.addReserve(request.getAmount());
     }
 
