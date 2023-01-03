@@ -8,6 +8,7 @@ import com.seogineer.marketborojointest.dto.response.MemberTotalBalanceResponse;
 import com.seogineer.marketborojointest.service.MemberService;
 import java.net.URI;
 import java.util.List;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -43,7 +44,7 @@ public class MemberController {
     }
 
     @PutMapping("/member/reserve/{id}/add")
-    public ResponseEntity<?> addReserve(@PathVariable Long id, @RequestBody MemberAddReserveRequest request){
+    public ResponseEntity<?> addReserve(@PathVariable Long id, @RequestBody @Valid MemberAddReserveRequest request){
         memberService.addReserve(id, request);
         return ResponseEntity.ok().build();
     }
@@ -63,7 +64,7 @@ public class MemberController {
     }
 
     @PutMapping("/member/reserve/{id}/use")
-    public ResponseEntity<?> useReserve(@PathVariable Long id, @RequestBody MemberUseReserveRequest request){
+    public ResponseEntity<?> useReserve(@PathVariable Long id, @RequestBody @Valid MemberUseReserveRequest request){
         memberService.useReserve(id, request);
         return ResponseEntity.ok().build();
     }
