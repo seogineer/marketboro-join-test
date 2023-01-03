@@ -1,8 +1,10 @@
 package com.seogineer.marketborojointest.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,17 +20,19 @@ public class Member extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToMany(cascade = CascadeType.ALL)
+    @JsonIgnore
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    @Column(name = "reserve_id")
     private final List<Reserve> reserves = new ArrayList<>();
 
-    protected Member() {}
+    public Member() {}
 
     public Member(Long id){
         this.id = id;
     }
 
     public void addReserve(int amount){
-        reserves.add(Reserve.of(amount, this.getId()));
+        reserves.add(Reserve.of(amount, this));
     }
 
     public void useReserve(int amount) {

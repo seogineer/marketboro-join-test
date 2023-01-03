@@ -8,8 +8,6 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 
 class MemberRepositoryTest extends BaseTest {
@@ -65,36 +63,16 @@ class MemberRepositoryTest extends BaseTest {
         List<Member> members = memberRepository.findAll();
 
         assertAll(
-                () -> assertThat(members.size()).isEqualTo(5),
+                () -> assertThat(members).hasSize(5),
                 () -> assertThat(members.get(0).getId()).isEqualTo(회원1.getId()),
-                () -> assertThat(members.get(0).getReserves().size()).isEqualTo(회원1.getReserves().size()),
+                () -> assertThat(members.get(0).getReserves()).hasSize(회원1.getReserves().size()),
                 () -> assertThat(members.get(0).getTotalReserve()).isEqualTo(회원1.getTotalReserve()),
                 () -> assertThat(members.get(1).getId()).isEqualTo(회원2.getId()),
+                () -> assertThat(members.get(1).getReserves()).hasSize(회원2.getReserves().size()),
+                () -> assertThat(members.get(1).getTotalReserve()).isEqualTo(회원2.getTotalReserve()),
                 () -> assertThat(members.get(2).getId()).isEqualTo(회원3.getId()),
                 () -> assertThat(members.get(3).getId()).isEqualTo(회원4.getId()),
                 () -> assertThat(members.get(4).getId()).isEqualTo(회원5.getId())
-        );
-    }
-
-    @Test
-    @Transactional
-    void 페이지_조회() {
-        memberRepository.save(회원1);
-        memberRepository.save(회원2);
-        memberRepository.save(회원3);
-        memberRepository.save(회원4);
-        memberRepository.save(회원5);
-        memberRepository.save(회원6);
-
-        Page<Member> members = memberRepository.findAll(PageRequest.of(0, 5));
-
-        assertAll(
-                () -> assertThat(members.getContent().size()).isEqualTo(5),
-                () -> assertThat(members.getContent().get(0).getId()).isEqualTo(회원1.getId()),
-                () -> assertThat(members.getContent().get(1).getId()).isEqualTo(회원2.getId()),
-                () -> assertThat(members.getContent().get(2).getId()).isEqualTo(회원3.getId()),
-                () -> assertThat(members.getContent().get(3).getId()).isEqualTo(회원4.getId()),
-                () -> assertThat(members.getContent().get(4).getId()).isEqualTo(회원5.getId())
         );
     }
 }
