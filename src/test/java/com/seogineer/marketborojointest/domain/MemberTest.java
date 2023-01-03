@@ -25,7 +25,7 @@ class MemberTest {
 
         적립금_적립(member, 10);
 
-        assertThat(member.getReserves().size()).isEqualTo(1);
+        assertThat(member.getReserves()).hasSize(1);
     }
 
     @Test
