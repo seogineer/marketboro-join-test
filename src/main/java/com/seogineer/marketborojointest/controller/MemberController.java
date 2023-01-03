@@ -4,6 +4,7 @@ import com.seogineer.marketborojointest.domain.Member;
 import com.seogineer.marketborojointest.dto.request.MemberAddReserveRequest;
 import com.seogineer.marketborojointest.dto.request.MemberUseReserveRequest;
 import com.seogineer.marketborojointest.dto.response.MemberReserveHistoryResponse;
+import com.seogineer.marketborojointest.dto.response.MemberResponse;
 import com.seogineer.marketborojointest.dto.response.MemberTotalBalanceResponse;
 import com.seogineer.marketborojointest.service.MemberService;
 import java.net.URI;
@@ -32,8 +33,8 @@ public class MemberController {
     }
 
     @GetMapping("/member/{id}")
-    public ResponseEntity<Member> findMember(@PathVariable Long id){
-        Member member = memberService.findMember(id);
+    public ResponseEntity<MemberResponse> findMember(@PathVariable Long id){
+        MemberResponse member = memberService.findMember(id);
         return ResponseEntity.ok().body(member);
     }
 

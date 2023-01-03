@@ -8,6 +8,7 @@ import com.seogineer.marketborojointest.domain.ReserveRepository;
 import com.seogineer.marketborojointest.dto.request.MemberAddReserveRequest;
 import com.seogineer.marketborojointest.dto.request.MemberUseReserveRequest;
 import com.seogineer.marketborojointest.dto.response.MemberReserveHistoryResponse;
+import com.seogineer.marketborojointest.dto.response.MemberResponse;
 import com.seogineer.marketborojointest.dto.response.MemberTotalBalanceResponse;
 import com.seogineer.marketborojointest.exception.MemberException;
 import java.util.List;
@@ -34,8 +35,9 @@ public class MemberService {
 
     @Cacheable(value="members", key="#memberId")
     @Transactional(readOnly = true)
-    public Member findMember(Long memberId) {
-        return memberRepository.findById(memberId).orElseThrow(() -> new MemberException(NOT_FOUND_MEMBER));
+    public MemberResponse findMember(Long memberId) {
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new MemberException(NOT_FOUND_MEMBER));
+        return MemberResponse.of(member);
     }
 
     @CacheEvict(value="members", key="#memberId")
@@ -48,19 +50,19 @@ public class MemberService {
             put = @CachePut(value = "members", key = "#memberId")
     )
     public void addReserve(Long memberId, MemberAddReserveRequest request){
-        Member member = findMember(memberId);
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new MemberException(NOT_FOUND_MEMBER));
         member.addReserve(request.getAmount());
     }
 
     @Transactional(readOnly = true)
     public MemberTotalBalanceResponse getTotalReserveByMember(Long memberId){
-        Member member = findMember(memberId);
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new MemberException(NOT_FOUND_MEMBER));
         return MemberTotalBalanceResponse.of(member);
     }
 
     @Transactional(readOnly = true)
     public List<MemberReserveHistoryResponse> getReserveHistoryByMember(Long memberId, Pageable pageable){
-        Member member = findMember(memberId);
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new MemberException(NOT_FOUND_MEMBER));
         return reserveRepository.findAllByMemberId(member.getId(), pageable).stream()
                 .map(MemberReserveHistoryResponse::of)
                 .collect(Collectors.toList());
@@ -71,7 +73,7 @@ public class MemberService {
             put = @CachePut(value = "members", key = "#memberId")
     )
     public void useReserve(Long memberId, MemberUseReserveRequest request){
-        Member member = findMember(memberId);
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new MemberException(NOT_FOUND_MEMBER));
         member.useReserve(request.getAmount());
     }
 }
