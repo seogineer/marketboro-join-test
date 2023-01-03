@@ -9,7 +9,6 @@ import com.seogineer.marketborojointest.dto.request.MemberAddReserveRequest;
 import com.seogineer.marketborojointest.dto.request.MemberUseReserveRequest;
 import com.seogineer.marketborojointest.dto.response.MemberReserveHistoryResponse;
 import com.seogineer.marketborojointest.dto.response.MemberTotalBalanceResponse;
-import com.seogineer.marketborojointest.exception.ErrorCode;
 import com.seogineer.marketborojointest.exception.MemberException;
 import java.util.List;
 import java.util.stream.Collectors;

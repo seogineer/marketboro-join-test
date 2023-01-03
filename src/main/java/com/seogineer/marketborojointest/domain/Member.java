@@ -1,6 +1,9 @@
 package com.seogineer.marketborojointest.domain;
 
+import static com.seogineer.marketborojointest.exception.ErrorCode.GREATER_THAN_TOTAL_RESERVES;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.seogineer.marketborojointest.exception.MemberException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -37,7 +40,7 @@ public class Member extends BaseEntity {
 
     public void useReserve(int amount) {
         if(getTotalReserve() < amount){
-            throw new IllegalArgumentException();
+            throw new MemberException(GREATER_THAN_TOTAL_RESERVES);
         }
 
         int cursor = 0;
