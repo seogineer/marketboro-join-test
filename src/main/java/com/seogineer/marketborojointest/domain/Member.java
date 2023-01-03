@@ -27,7 +27,7 @@ public class Member extends BaseEntity {
     @JsonIgnore
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     @Column(name = "reserve_id")
-    private final List<Reserve> reserves = new ArrayList<>();
+    private List<Reserve> reserves = new ArrayList<>();
 
     public Member() {}
 

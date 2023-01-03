@@ -13,6 +13,10 @@ import com.seogineer.marketborojointest.exception.MemberException;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,16 +32,21 @@ public class MemberService {
         return memberRepository.save(new Member());
     }
 
+    @Cacheable(value="members", key="#memberId")
     @Transactional(readOnly = true)
     public Member findMember(Long memberId) {
         return memberRepository.findById(memberId).orElseThrow(() -> new MemberException(NOT_FOUND_MEMBER));
     }
 
+    @CacheEvict(value="members", key="#memberId")
     public void deleteMember(Long memberId) {
         memberRepository.deleteById(memberId);
     }
 
-
+    @Caching(
+            evict = @CacheEvict(value = "members", key = "#memberId"),
+            put = @CachePut(value = "members", key = "#memberId")
+    )
     public void addReserve(Long memberId, MemberAddReserveRequest request){
         Member member = findMember(memberId);
         member.addReserve(request.getAmount());
@@ -57,6 +66,10 @@ public class MemberService {
                 .collect(Collectors.toList());
     }
 
+    @Caching(
+            evict = @CacheEvict(value = "members", key = "#memberId"),
+            put = @CachePut(value = "members", key = "#memberId")
+    )
     public void useReserve(Long memberId, MemberUseReserveRequest request){
         Member member = findMember(memberId);
         member.useReserve(request.getAmount());
