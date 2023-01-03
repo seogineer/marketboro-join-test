@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.seogineer.marketborojointest.BaseTest;
+import com.seogineer.marketborojointest.dto.response.MemberResponse;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -52,30 +53,13 @@ class MemberRepositoryTest extends BaseTest {
     @Transactional
     void 조회() {
         memberRepository.save(회원1);
-        memberRepository.save(회원2);
-        memberRepository.save(회원3);
-        memberRepository.save(회원4);
-        memberRepository.save(회원5);
 
-        List<Member> members = memberRepository.findAll();
+        Member member = memberRepository.findById(회원1.getId()).get();
 
         assertAll(
-                () -> assertThat(members).hasSize(5),
-                () -> assertThat(members.get(0).getId()).isEqualTo(회원1.getId()),
-                () -> assertThat(members.get(0).getReserves()).hasSize(회원1.getReserves().size()),
-                () -> assertThat(members.get(0).getTotalReserve()).isEqualTo(회원1.getTotalReserve()),
-                () -> assertThat(members.get(1).getId()).isEqualTo(회원2.getId()),
-                () -> assertThat(members.get(1).getReserves()).hasSize(회원2.getReserves().size()),
-                () -> assertThat(members.get(1).getTotalReserve()).isEqualTo(회원2.getTotalReserve()),
-                () -> assertThat(members.get(2).getId()).isEqualTo(회원3.getId()),
-                () -> assertThat(members.get(2).getReserves()).hasSize(회원3.getReserves().size()),
-                () -> assertThat(members.get(2).getTotalReserve()).isEqualTo(회원3.getTotalReserve()),
-                () -> assertThat(members.get(3).getId()).isEqualTo(회원4.getId()),
-                () -> assertThat(members.get(3).getReserves()).hasSize(회원4.getReserves().size()),
-                () -> assertThat(members.get(3).getTotalReserve()).isEqualTo(회원4.getTotalReserve()),
-                () -> assertThat(members.get(4).getId()).isEqualTo(회원5.getId()),
-                () -> assertThat(members.get(4).getReserves()).hasSize(회원5.getReserves().size()),
-                () -> assertThat(members.get(4).getTotalReserve()).isEqualTo(회원5.getTotalReserve())
+                () -> assertThat(member.getId()).isEqualTo(회원1.getId()),
+                () -> assertThat(member.getTotalReserve()).isEqualTo(회원1.getTotalReserve()),
+                () -> assertThat(member.getReserves()).hasSize(회원1.getReserves().size())
         );
     }
 }

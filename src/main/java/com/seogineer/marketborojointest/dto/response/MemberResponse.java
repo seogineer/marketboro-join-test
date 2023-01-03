@@ -3,14 +3,17 @@ package com.seogineer.marketborojointest.dto.response;
 import com.seogineer.marketborojointest.domain.Member;
 import com.seogineer.marketborojointest.domain.Reserve;
 import java.util.List;
+import java.util.stream.Collectors;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 public class MemberResponse {
     private Long id;
-    private List<Reserve> reserves;
+    private List<ReserveResponse> reserves;
 
     private MemberResponse(Long id, List<Reserve> reserves) {
         this.id = id;
-        this.reserves = reserves;
+        this.reserves = reserves.stream().map(ReserveResponse::of).collect(Collectors.toList());
     }
 
     public static MemberResponse of(Member member) {
@@ -21,7 +24,7 @@ public class MemberResponse {
         return id;
     }
 
-    public List<Reserve> getReserves() {
+    public List<ReserveResponse> getReserves() {
         return reserves;
     }
 }

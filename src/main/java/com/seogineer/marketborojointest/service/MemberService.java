@@ -33,7 +33,7 @@ public class MemberService {
         return memberRepository.save(new Member());
     }
 
-    @Cacheable(value="members", key="#memberId")
+    @Cacheable(value="members", key="#memberId", unless="#result == null")
     @Transactional(readOnly = true)
     public MemberResponse findMember(Long memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new MemberException(NOT_FOUND_MEMBER));
@@ -54,6 +54,7 @@ public class MemberService {
         member.addReserve(request.getAmount());
     }
 
+    @Cacheable(value="members", key="#memberId", unless="#result == null")
     @Transactional(readOnly = true)
     public MemberTotalBalanceResponse getTotalReserveByMember(Long memberId){
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new MemberException(NOT_FOUND_MEMBER));
