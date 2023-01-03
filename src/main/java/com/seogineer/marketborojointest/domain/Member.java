@@ -4,6 +4,7 @@ import static com.seogineer.marketborojointest.exception.ErrorCode.GREATER_THAN_
 import static com.seogineer.marketborojointest.exception.ErrorCode.RESERVES_IS_EMPTY;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.seogineer.marketborojointest.exception.MemberException;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,6 @@ public class Member extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @JsonIgnore
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     @Column(name = "reserve_id")
     private List<Reserve> reserves = new ArrayList<>();
@@ -75,6 +75,7 @@ public class Member extends BaseEntity {
         }
     }
 
+    @JsonIgnore
     public int getTotalReserve() {
         return reserves.stream()
                 .map(Reserve::getBalance)
