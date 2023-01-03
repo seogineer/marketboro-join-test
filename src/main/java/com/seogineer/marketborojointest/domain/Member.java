@@ -1,6 +1,7 @@
 package com.seogineer.marketborojointest.domain;
 
 import static com.seogineer.marketborojointest.exception.ErrorCode.GREATER_THAN_TOTAL_RESERVES;
+import static com.seogineer.marketborojointest.exception.ErrorCode.RESERVES_IS_EMPTY;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.seogineer.marketborojointest.exception.MemberException;
@@ -40,30 +41,32 @@ public class Member extends BaseEntity {
 
     public void useReserve(int amount) {
         validateGreaterThanTotalReserves(amount);
+        validateIsEmptyReserves();
 
         int cursor = 0;
         while(true){
-            if(isGreaterThanReservesSize(cursor)){
-                break;
-            }
-
             if(reserves.get(cursor).isUse()){
                 cursor++;
                 continue;
             }
 
             int changes = reserves.get(cursor).use(amount);
-            if(changes == 0){
+            if(IsZeroChanges(changes)){
                 break;
             }
-
             cursor++;
             amount = changes;
         }
     }
 
-    private boolean isGreaterThanReservesSize(int cursor){
-        return cursor > reserves.size() - 1;
+    private boolean IsZeroChanges(int changes){
+        return changes == 0;
+    }
+
+    private void validateIsEmptyReserves(){
+        if(reserves.isEmpty()){
+            throw new MemberException(RESERVES_IS_EMPTY);
+        }
     }
 
     private void validateGreaterThanTotalReserves(int amount){
