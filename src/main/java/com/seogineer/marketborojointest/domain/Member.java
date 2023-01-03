@@ -39,8 +39,8 @@ public class Member extends BaseEntity {
         reserves.add(Reserve.of(amount, this));
     }
 
-    public void useReserve(int amount) {
-        validateGreaterThanTotalReserves(amount);
+    public void useReserve(int usage) {
+        validateGreaterThanTotalReserves(usage);
         validateIsEmptyReserves();
 
         int cursor = 0;
@@ -50,12 +50,12 @@ public class Member extends BaseEntity {
                 continue;
             }
 
-            int changes = reserves.get(cursor).use(amount);
+            int changes = reserves.get(cursor).use(usage);
             if(IsZeroChanges(changes)){
                 break;
             }
             cursor++;
-            amount = changes;
+            usage = changes;
         }
     }
 

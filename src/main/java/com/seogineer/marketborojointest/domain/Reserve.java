@@ -42,24 +42,25 @@ public class Reserve extends BaseEntity {
         return new Reserve(amount, member);
     }
 
-    public int use(int money){
+    public int use(int usage){
         if(isUse()){
-            return money;
+            return usage;
         }
 
-        if(this.balance == money) {
+        if(this.balance == usage) {
             this.status = ReserveStatus.USE;
-            this.balance -= money;
+            this.balance -= usage;
             return 0;
         }
-        if(this.balance > money){
-            this.balance -= money;
+        if(this.balance > usage){
+            this.balance -= usage;
             return 0;
         }
         this.status = ReserveStatus.USE;
-        int remain = money - this.balance;
+        int changes = usage - this.balance;
         this.balance = 0;
-        return remain;
+
+        return changes;
     }
 
     private void validateAmountLessThanZero(int amount){
