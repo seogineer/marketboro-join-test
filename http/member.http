@@ -1,0 +1,30 @@
+### 회원 생성
+POST http://localhost:8080/member
+
+### 회원 조회
+GET http://localhost:8080/member/1
+
+### 회원 삭제
+DELETE http://localhost:8080/member/1
+
+### 적립금 추가
+PUT http://localhost:8080/member/reserve/1/add
+Content-Type: application/json
+
+{
+  "amount": 10
+}
+
+### 적립금 합계 조회
+GET http://localhost:8080/member/reserve/1/total
+
+### 적립금 적립/사용 내역 조회
+GET http://localhost:8080/member/reserve/1/history?page=0&size=5
+
+### 적립금 사용
+PUT http://localhost:8080/member/reserve/1/use
+Content-Type: application/json
+
+{
+  "amount": 5
+}
