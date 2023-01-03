@@ -18,7 +18,6 @@ class MemberRepositoryTest extends BaseTest {
     private Member 회원3;
     private Member 회원4;
     private Member 회원5;
-    private Member 회원6;
     @BeforeEach
     void before() {
         회원1 = new Member(1L);
@@ -35,8 +34,6 @@ class MemberRepositoryTest extends BaseTest {
         회원4.addReserve(3);
         회원5 = new Member(5L);
         회원5.addReserve(2);
-        회원6 = new Member(6L);
-        회원6.addReserve(7);
     }
 
     @Test
@@ -71,8 +68,14 @@ class MemberRepositoryTest extends BaseTest {
                 () -> assertThat(members.get(1).getReserves()).hasSize(회원2.getReserves().size()),
                 () -> assertThat(members.get(1).getTotalReserve()).isEqualTo(회원2.getTotalReserve()),
                 () -> assertThat(members.get(2).getId()).isEqualTo(회원3.getId()),
+                () -> assertThat(members.get(2).getReserves()).hasSize(회원3.getReserves().size()),
+                () -> assertThat(members.get(2).getTotalReserve()).isEqualTo(회원3.getTotalReserve()),
                 () -> assertThat(members.get(3).getId()).isEqualTo(회원4.getId()),
-                () -> assertThat(members.get(4).getId()).isEqualTo(회원5.getId())
+                () -> assertThat(members.get(3).getReserves()).hasSize(회원4.getReserves().size()),
+                () -> assertThat(members.get(3).getTotalReserve()).isEqualTo(회원4.getTotalReserve()),
+                () -> assertThat(members.get(4).getId()).isEqualTo(회원5.getId()),
+                () -> assertThat(members.get(4).getReserves()).hasSize(회원5.getReserves().size()),
+                () -> assertThat(members.get(4).getTotalReserve()).isEqualTo(회원5.getTotalReserve())
         );
     }
 }
