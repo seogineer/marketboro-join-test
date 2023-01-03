@@ -1,5 +1,8 @@
 package com.seogineer.marketborojointest.domain;
 
+import static com.seogineer.marketborojointest.exception.ErrorCode.RESERVE_SAVE_MUST_POSITIVE;
+
+import com.seogineer.marketborojointest.exception.MemberException;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -28,6 +31,7 @@ public class Reserve extends BaseEntity {
     protected Reserve() {}
 
     private Reserve(int amount, Member member){
+        validateAmount(amount);
         this.amount = amount;
         this.balance = amount;
         this.status = ReserveStatus.SAVE;
@@ -56,6 +60,12 @@ public class Reserve extends BaseEntity {
         int remain = money - this.balance;
         this.balance = 0;
         return remain;
+    }
+
+    private void validateAmount(int amount){
+        if(amount <= 0){
+            throw new MemberException(RESERVE_SAVE_MUST_POSITIVE);
+        }
     }
 
     public Long getId() {
