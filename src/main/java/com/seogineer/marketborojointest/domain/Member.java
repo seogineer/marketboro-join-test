@@ -52,13 +52,13 @@ public class Member extends BaseEntity {
                 continue;
             }
 
-            int remain = reserves.get(cursor).use(amount);
-            if(remain == 0){
+            int changes = reserves.get(cursor).use(amount);
+            if(changes == 0){
                 break;
             }
 
             cursor++;
-            amount = remain;
+            amount = changes;
         }
     }
 
