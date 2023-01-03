@@ -1,5 +1,6 @@
 package com.seogineer.marketborojointest.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.seogineer.marketborojointest.domain.Member;
 import com.seogineer.marketborojointest.domain.Reserve;
 import java.util.List;
@@ -26,5 +27,12 @@ public class MemberResponse {
 
     public List<ReserveResponse> getReserves() {
         return reserves;
+    }
+
+    @JsonIgnore
+    public int getTotalReserve() {
+        return reserves.stream()
+                .map(ReserveResponse::getBalance)
+                .reduce(0, Integer::sum);
     }
 }

@@ -1,6 +1,5 @@
 package com.seogineer.marketborojointest.dto.response;
 
-import com.seogineer.marketborojointest.domain.Member;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
@@ -13,7 +12,7 @@ public class MemberTotalBalanceResponse {
         this.totalBalance = totalBalance;
     }
 
-    public static MemberTotalBalanceResponse of(Member member){
+    public static MemberTotalBalanceResponse of(MemberResponse member){
         return new MemberTotalBalanceResponse(member.getId(), member.getTotalReserve());
     }
 

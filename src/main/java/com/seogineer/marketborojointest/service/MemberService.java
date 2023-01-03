@@ -46,7 +46,7 @@ public class MemberService {
     }
 
     @Caching(
-            evict = @CacheEvict(value = "members", key = "#memberId"),
+            evict = @CacheEvict(value = "members", allEntries = true),
             put = @CachePut(value = "members", key = "#memberId")
     )
     public void addReserve(Long memberId, MemberAddReserveRequest request){
@@ -54,23 +54,22 @@ public class MemberService {
         member.addReserve(request.getAmount());
     }
 
-    @Cacheable(value="members", key="#memberId", unless="#result == null")
     @Transactional(readOnly = true)
     public MemberTotalBalanceResponse getTotalReserveByMember(Long memberId){
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new MemberException(NOT_FOUND_MEMBER));
+        MemberResponse member = findMember(memberId);
         return MemberTotalBalanceResponse.of(member);
     }
 
     @Transactional(readOnly = true)
     public List<MemberReserveHistoryResponse> getReserveHistoryByMember(Long memberId, Pageable pageable){
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new MemberException(NOT_FOUND_MEMBER));
+        MemberResponse member = findMember(memberId);
         return reserveRepository.findAllByMemberId(member.getId(), pageable).stream()
                 .map(MemberReserveHistoryResponse::of)
                 .collect(Collectors.toList());
     }
 
     @Caching(
-            evict = @CacheEvict(value = "members", key = "#memberId"),
+            evict = @CacheEvict(value = "members", allEntries = true),
             put = @CachePut(value = "members", key = "#memberId")
     )
     public void useReserve(Long memberId, MemberUseReserveRequest request){
