@@ -39,28 +39,34 @@ public class Member extends BaseEntity {
     }
 
     public void useReserve(int amount) {
-        validateUseReserve(amount);
+        validateGreaterThanTotalReserves(amount);
 
         int cursor = 0;
         while(true){
-            if(cursor > reserves.size() - 1){
+            if(isGreaterThanReservesSize(cursor)){
                 break;
             }
-            Reserve reserve = reserves.get(cursor);
-            if(reserve.getStatus() == ReserveStatus.USE){
+
+            if(reserves.get(cursor).isUse()){
                 cursor++;
                 continue;
             }
-            int remain = reserve.use(amount);
+
+            int remain = reserves.get(cursor).use(amount);
             if(remain == 0){
                 break;
             }
+
             cursor++;
             amount = remain;
         }
     }
 
-    private void validateUseReserve(int amount){
+    private boolean isGreaterThanReservesSize(int cursor){
+        return cursor > reserves.size() - 1;
+    }
+
+    private void validateGreaterThanTotalReserves(int amount){
         if(getTotalReserve() < amount){
             throw new MemberException(GREATER_THAN_TOTAL_RESERVES);
         }

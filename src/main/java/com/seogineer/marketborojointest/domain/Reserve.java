@@ -31,7 +31,7 @@ public class Reserve extends BaseEntity {
     protected Reserve() {}
 
     private Reserve(int amount, Member member){
-        validateAmount(amount);
+        validateAmountLessThanZero(amount);
         this.amount = amount;
         this.balance = amount;
         this.status = ReserveStatus.SAVE;
@@ -43,7 +43,7 @@ public class Reserve extends BaseEntity {
     }
 
     public int use(int money){
-        if(this.status == ReserveStatus.USE){
+        if(isUse()){
             return money;
         }
 
@@ -62,10 +62,14 @@ public class Reserve extends BaseEntity {
         return remain;
     }
 
-    private void validateAmount(int amount){
+    private void validateAmountLessThanZero(int amount){
         if(amount <= 0){
             throw new MemberException(RESERVE_SAVE_MUST_POSITIVE);
         }
+    }
+
+    public boolean isUse() {
+        return this.status == ReserveStatus.USE;
     }
 
     public Long getId() {
