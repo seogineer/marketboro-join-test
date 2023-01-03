@@ -1,10 +1,12 @@
 package com.seogineer.marketborojointest.dto.response;
 
 import com.seogineer.marketborojointest.domain.Member;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 public class MemberTotalBalanceResponse {
-    private final Long memberId;
-    private final int totalBalance;
+    private Long memberId;
+    private int totalBalance;
 
     private MemberTotalBalanceResponse(Long memberId, int totalBalance) {
         this.memberId = memberId;

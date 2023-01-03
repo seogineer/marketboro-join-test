@@ -1,16 +1,26 @@
 package com.seogineer.marketborojointest.dto.response;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.seogineer.marketborojointest.domain.Reserve;
 import com.seogineer.marketborojointest.domain.ReserveStatus;
 import java.time.LocalDateTime;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 public class MemberReserveHistoryResponse {
-    private final Long memberId;
-    private final int amount;
-    private final int balance;
-    private final ReserveStatus status;
-    private final LocalDateTime createdDate;
-    private final LocalDateTime modifiedDate;
+    private Long memberId;
+    private int amount;
+    private int balance;
+    private ReserveStatus status;
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    private LocalDateTime createdDate;
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    private LocalDateTime modifiedDate;
 
     private MemberReserveHistoryResponse(
             Long memberId,
