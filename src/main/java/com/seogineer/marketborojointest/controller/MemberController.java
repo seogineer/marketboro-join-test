@@ -52,8 +52,8 @@ public class MemberController {
 
     @GetMapping("/member/reserve/{id}/total")
     public ResponseEntity<MemberTotalBalanceResponse> getTotalReserveByMember(@PathVariable Long id){
-        MemberTotalBalanceResponse members = memberService.getTotalReserveByMember(id);
-        return ResponseEntity.ok().body(members);
+        MemberTotalBalanceResponse member = memberService.getTotalReserveByMember(id);
+        return ResponseEntity.ok().body(member);
     }
 
     @GetMapping("/member/reserve/{id}/history")
