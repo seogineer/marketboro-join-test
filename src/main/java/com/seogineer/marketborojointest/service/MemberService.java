@@ -29,8 +29,9 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final ReserveRepository reserveRepository;
 
-    public Member createMember(){
-        return memberRepository.save(new Member());
+    public MemberResponse createMember(){
+        Member member = memberRepository.save(new Member());
+        return MemberResponse.of(member);
     }
 
     @Cacheable(value="members", key="#memberId", unless="#result == null")
