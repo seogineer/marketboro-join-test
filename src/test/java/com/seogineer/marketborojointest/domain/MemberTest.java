@@ -40,6 +40,20 @@ class MemberTest {
     }
 
     @Test
+    void 적립금_합계_2() {
+        Member 회원 = 회원_생성(1L);
+        적립금_적립(회원, 10);
+        적립금_적립(회원, 1);
+        적립금_적립(회원, 15);
+
+        회원.getReserves().get(0).delete();
+        회원.getReserves().get(1).delete();
+        회원.getReserves().get(2).delete();
+
+        assertThat(회원.getTotalReserve()).isEqualTo(0);
+    }
+
+    @Test
     void 적립금과_사용_금액이_같은_경우_사용() {
         Member member = 회원_생성(1L);
         적립금_적립(member, 10);
