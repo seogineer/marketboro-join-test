@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 
-public class ReserveRepositoryTest extends BaseTest {
+class ReserveRepositoryTest extends BaseTest {
     @Autowired
     ReserveRepository reserveRepository;
     @Autowired
