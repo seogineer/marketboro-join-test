@@ -41,7 +41,12 @@ http://localhost:8080/swagger-ui/index.html
 docker run --name mysql-master -p 13306:3306 -v ~/mysql/master:/etc/mysql/conf.d -e MYSQL_ROOT_PASSWORD=masterpw -d mysql
 
 docker exec -it mysql-master /bin/bash
-mysql -u root -p  
+mysql -u root -p
+
+mysql> CREATE DATABASE marketboro;
+mysql> GRANT ALL PRIVILEGES ON marketboro.* to root@'%';
+mysql> FLUSH PRIVILEGES;
+  
 mysql> CREATE USER 'replication_user'@'%' IDENTIFIED WITH mysql_native_password by 'replication_pw';  
 mysql> GRANT REPLICATION SLAVE ON *.* TO 'replication_user'@'%'; 
 
@@ -61,6 +66,10 @@ docker run --name mysql-slave -p 13307:3306 -v ~/mysql/slave:/etc/mysql/conf.d -
 
 docker exec -it mysql-slave /bin/bash
 mysql -u root -p  
+
+mysql> CREATE DATABASE marketboro;
+mysql> GRANT ALL PRIVILEGES ON marketboro.* to root@'%';
+mysql> FLUSH PRIVILEGES;
 
 mysql> SET GLOBAL server_id = 2;
 mysql> CHANGE MASTER TO MASTER_HOST='172.17.0.1', MASTER_PORT = 13306, MASTER_USER='replication_user', MASTER_PASSWORD='replication_pw', MASTER_LOG_FILE='binlog.000002', MASTER_LOG_POS=683;  
