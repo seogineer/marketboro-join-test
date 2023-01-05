@@ -9,7 +9,7 @@ import static com.seogineer.marketborojointest.controller.MemberAcceptanceSuppor
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import com.seogineer.marketborojointest.AcceptanceTest;
+import com.seogineer.marketborojointest.BaseTest;
 import com.seogineer.marketborojointest.domain.ReserveStatus;
 import com.seogineer.marketborojointest.dto.response.MemberReserveHistoryResponse;
 import com.seogineer.marketborojointest.dto.response.MemberResponse;
@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
 @DisplayName("회원 관련 기능")
-class MemberAcceptanceTest extends AcceptanceTest {
+class MemberAcceptanceTest extends BaseTest {
     private MemberResponse 회원;
 
     @BeforeEach
