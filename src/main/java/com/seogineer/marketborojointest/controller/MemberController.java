@@ -1,6 +1,5 @@
 package com.seogineer.marketborojointest.controller;
 
-import com.seogineer.marketborojointest.domain.Member;
 import com.seogineer.marketborojointest.dto.request.MemberAddReserveRequest;
 import com.seogineer.marketborojointest.dto.request.MemberUseReserveRequest;
 import com.seogineer.marketborojointest.dto.response.MemberReserveHistoryResponse;
