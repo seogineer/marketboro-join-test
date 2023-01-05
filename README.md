@@ -32,6 +32,9 @@
 # 개발 환경
 * Java 1.8, Spring Boot 2.7, Spring Data JPA, QueryDSL, Redis, MySQL, H2, Lombok, Flyway, RestAssured 
 
+# API 문서
+http://localhost:8080/swagger-ui/index.html
+
 # 설정
 * master DB 설정
 ````shell
