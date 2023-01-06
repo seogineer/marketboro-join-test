@@ -17,8 +17,18 @@ class ReserveTest {
 
         assertAll(
                 () -> assertThat(적립금.getAmount()).isEqualTo(10),
-                () -> assertThat(적립금.getBalance()).isEqualTo(10)
+                () -> assertThat(적립금.getBalance()).isEqualTo(10),
+                () -> assertThat(적립금.isDeleted()).isFalse()
         );
+    }
+
+    @Test
+    void 적립금_만료() {
+        Reserve 적립금 = 적립금_생성(10);
+
+        적립금.delete();
+
+        assertThat(적립금.isDeleted()).isTrue();
     }
 
     @Test
