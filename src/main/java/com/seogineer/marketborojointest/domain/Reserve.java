@@ -3,6 +3,7 @@ package com.seogineer.marketborojointest.domain;
 import static com.seogineer.marketborojointest.exception.ErrorCode.RESERVE_SAVE_MUST_POSITIVE;
 
 import com.seogineer.marketborojointest.exception.MemberException;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -27,7 +28,8 @@ public class Reserve extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
-    private Boolean isDeleted;
+    @Column(nullable = false)
+    private boolean isDeleted = false;
 
     protected Reserve() {}
 
@@ -37,7 +39,6 @@ public class Reserve extends BaseEntity {
         this.balance = amount;
         this.status = ReserveStatus.SAVE;
         this.member = member;
-        this.isDeleted = false;
     }
 
     public static Reserve of(int amount, Member member){
@@ -102,7 +103,7 @@ public class Reserve extends BaseEntity {
         return member;
     }
 
-    public Boolean getDeleted() {
+    public boolean isDeleted() {
         return isDeleted;
     }
 
