@@ -27,7 +27,7 @@ public class Reserve extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
-    private boolean isDeleted;
+    private Boolean isDeleted;
 
     protected Reserve() {}
 
@@ -102,7 +102,7 @@ public class Reserve extends BaseEntity {
         return member;
     }
 
-    public boolean isDeleted() {
+    public Boolean getDeleted() {
         return isDeleted;
     }
 

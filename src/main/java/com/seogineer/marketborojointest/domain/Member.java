@@ -69,7 +69,7 @@ public class Member extends BaseEntity {
     @JsonIgnore
     public int getTotalReserve() {
         return reserves.stream()
-                .filter(reserve -> !reserve.isDeleted())
+                .filter(reserve -> !reserve.getIsDeleted())
                 .map(Reserve::getBalance)
                 .reduce(0, Integer::sum);
     }
